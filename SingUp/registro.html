@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Login</title>
+        <link rel="stylesheet" href="registro.css" />
+        <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body ng-app="myApp">
+        <!-- Codigo de formulario de registro -->
+        <div class="container">
+        <div class="row">
+        <form class="reg col-lg-6 col-lg-offset-3 col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4" action="./yes.html" method="get">
+          <div class="row">
+            <label class="col-lg-10 col-lg-offset-1 col-md-10 col-lg-offset-1 col-sm-10 col-lg-offset-1 col-xs-10 col-lg-offset-1" for="name">Name:</label>
+            <input class="col-lg-10 col-lg-offset-1 col-md-10 col-lg-offset-1 col-sm-10 col-lg-offset-1 col-xs-10 col-lg-offset-1" type="text" id="name" ng-model="name" name="name" value="" required m-name autocomplete="off" autofocus placeholder="Name"><br>
+          </div>
+          <div class="row">
+            <p class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1  col-sm-8 col-sm-offset-1 col-xs-8 col-xs-offset-1"  id="ename"></p>
+          </div>
+          <div class="row">
+            <label class="col-lg-10 col-lg-offset-1 col-md-10 col-lg-offset-1 col-sm-10 col-lg-offset-1 col-xs-10 col-lg-offset-1" for="firstname">First Name:</label>
+            <input class="col-lg-10 col-lg-offset-1 col-md-10 col-lg-offset-1 col-sm-10 col-lg-offset-1 col-xs-10 col-lg-offset-1" type="text" id="firstname" ng-model="first" name="firstname" value="" required m-first autocomplete="off" autofocus placeholder="First Name"><br>
+          </div>
+          <div class="row">
+            <p class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-8 col-xs-offset-1"  id="efname"></p>
+          </div>
+          <div class="row">
+            <label class="col-lg-10 col-lg-offset-1 col-md-10 col-lg-offset-1 col-sm-10 col-lg-offset-1 col-xs-10 col-lg-offset-1" for="mail">Email:</label>
+            <input class="col-lg-10 col-lg-offset-1 col-md-10 col-lg-offset-1 col-sm-10 col-lg-offset-1 col-xs-10 col-lg-offset-1" type="text" id="mail" ng-model="email" name="mail" value="" required m-email autocomplete="off" autofocus placeholder="Email"><br>
+          </div>
+          <div class="row">
+            <p class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-8 col-xs-offset-1"  id="email"></p>
+          </div>
+          <div class="row">
+            <label class="col-lg-10 col-lg-offset-1 col-md-10 col-lg-offset-1 col-sm-10 col-lg-offset-1 col-xs-10 col-lg-offset-1" for="pass">Password:</label>
+            <input class="col-lg-10 col-lg-offset-1 col-md-10 col-lg-offset-1 col-sm-10 col-lg-offset-1 col-xs-10 col-lg-offset-1" type="password" id="pass" ng-model="pass" name="pass" value="" required m-password autocomplete="off" autofocus placeholder="Password"><br>
+          </div>
+          <div class="row">
+            <p class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1  col-sm-8 col-sm-offset-1 col-xs-8 col-xs-offset-1" id="mipass"></p>
+          </div>
+          <div class="row">
+            <input class="col-lg-10 col-lg-offset-1 col-md-10 col-lg-offset-1 col-sm-10 col-lg-offset-1 col-xs-10 col-lg-offset-1"  type="submit" name="submit" value="Sing Up">
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js">
+    </script>
+    <script>
+      var app = angular.module('myApp',[]);
+      app.directive('mName',function(){
+        return{
+          require: 'ngModel',
+          link: function(scope,element,attr,mCtrl){
+            function mValidation(value){
+              var aux = 0;
+              for (var i = 0; i < value.length; i++) {
+                  if(value.charCodeAt(i) < 65 || value.charCodeAt(i) > 122){
+                      document.getElementById('ename').innerHTML = "Can not contain numbers or special characters";
+                      mCtrl.$setValidity('name', false);
+                      aux=1;
+                  }
+              }
+              if (!aux) {
+                document.getElementById('ename').innerHTML = "";
+                mCtrl.$setValidity('name', true);
+              }
+              return value;
+            }
+            mCtrl.$parsers.push(mValidation);
+          }
+        };
+      });
+
+      app.directive('mFirst',function(){
+        return{
+          require: 'ngModel',
+          link: function(scope,element,attr,mCtrl){
+            function mValidation(value){
+              var aux = 0;
+              for (var i = 0; i < value.length; i++) {
+                  if(value.charCodeAt(i) < 65 || value.charCodeAt(i) > 122){
+                      document.getElementById('efname').innerHTML = "Can not contain numbers or special characters";
+                      mCtrl.$setValidity('first', false);
+                      aux=1;
+                  }
+              }
+              if (!aux) {
+                document.getElementById('efname').innerHTML = "";
+                mCtrl.$setValidity('name', true);
+              }
+              return value;
+            }
+            mCtrl.$parsers.push(mValidation);
+          }
+        };
+      });
+
+      app.directive('mEmail', function(){
+        return {
+          require: 'ngModel',
+          link: function(scope, element, attr, mCtrl){
+            function mValidation(value) {
+              var a = value.indexOf('@');
+              var p = value.lastIndexOf('.');
+              if(a < 1 || p - a < 2 || value.length - p < 2 || p == -1){
+                  document.getElementById('email').innerHTML = "Incorect format";
+                  mCtrl.$setValidity('mail',false);
+              } else{
+                document.getElementById('email').innerHTML = "";
+                mCtrl.$setValidity('mail',true);
+              }
+              return value;
+            }
+            mCtrl.$parsers.push(mValidation);
+          }
+        };
+      });
+
+      app.directive('mPassword', function() {
+            return {
+                require: 'ngModel',
+                link: function(scope, element, attr, mCtrl) {
+                    function mValidation(value) {
+                        var m = 0;
+                        var n = 0;
+
+                        for (var i = 0; i < value.length; i++) {
+                            if(value.charCodeAt(i) > 64 && value.charCodeAt(i) < 91){
+                                m = 1;
+                            }else if(value.charCodeAt(i) > 47 && value.charCodeAt(i) < 57){
+                                n = 1;
+                            }
+                        }
+
+                        if(!m){
+                            document.getElementById('mipass').innerHTML = "Must have at least an uppercase letter";
+                            mCtrl.$setValidity('pass', false);
+                        }
+                        if(!n){
+                            document.getElementById('mipass').innerHTML = "Must have at least one number";
+                            mCtrl.$setValidity('pass', false);
+                        }
+
+                        if(n&&m){
+                            document.getElementById('mipass').innerHTML = "";
+                            mCtrl.$setValidity('pass', true);
+                        }
+                        return value;
+                    }
+                    mCtrl.$parsers.push(mValidation);
+                }
+            };
+        });
+
+
+    </script>
+      <!--  <script type="text/javascript" src="registro.js"></script> -->
+    </body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Login</title>
+        <link rel="stylesheet" href="login.css" />
+        <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body ng-app="myApp">
+
+      <!-- Código de inicio de sesión-->
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3  col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1" id="login">
+            <form class="reg" action="./si.html" method="get" name="login">
+            <div class="form">
+              <div class="row">
+              <h1 class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Login</h1>
+              </div>
+            <div class="row">
+              <div class="input col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <span class="icon col-lg-1 col-lg-offset-1 col-md-1 col-lg-offset-1 col-sm-1 col-lg-offset-1 col-xs-1 col-lg-offset-1"><i class="fa fa-at"></i></span>
+                <input type="text" class="col-lg-9 col-md-9 col-sm-9 col-xs-9" id="mail" ng-model="email" name="mail" value="" required m-email autocomplete="off" autofocus placeholder="Email"/>
+              </div>
+                <div class="row">
+                <p class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2  col-sm-8 col-sm-offset-2 col-xs-8 col-xs-offset-2" id="email"></p>
+                </div>
+            </div>
+            <div class="row">
+              <div class="input col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <span class="icon dos col-lg-1 col-lg-offset-1 col-md-1 col-lg-offset-1 col-sm-1 col-lg-offset-1 col-xs-1 col-lg-offset-1"><i class="fa fa-lock"></i></span>
+                <input type="password" class="col-lg-9 col-md-9 col-sm-9 col-xs-9" id="pass" ng-model="pass" name="pass" value="" required m-password autocomplete="off" autofocus placeholder="Password"/>
+              </div>
+              <div class="row">
+                <p class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2  col-sm-8 col-sm-offset-2 col-xs-8 col-xs-offset-2" id="mipass"></p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="submit col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+                <input type="submit" onClick="loadNewPage()" value="Sign in"/>
+                <span id="sign">Don't have account? <a href="../SingUp/registro.html">Sign up</a></span>
+              </div>
+            </div>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js">
+      </script>
+      <script>
+      var app = angular.module('myApp',[]);
+      app.directive('mEmail', function(){
+        return {
+          require: 'ngModel',
+          link: function(scope, element, attr, mCtrl){
+            function mValidation(value) {
+              var a = value.indexOf('@');
+              var p = value.lastIndexOf('.');
+              if(a < 1 || p - a < 2 || value.length - p < 2 || p == -1){
+                  document.getElementById('email').innerHTML = "Incorect format";
+                  mCtrl.$setValidity('mail',false);
+              } else{
+                document.getElementById('email').innerHTML = "";
+                mCtrl.$setValidity('mail',true);
+              }
+              return value;
+            }
+            mCtrl.$parsers.push(mValidation);
+          }
+        };
+      });
+
+      app.directive('mPassword', function() {
+            return {
+                require: 'ngModel',
+                link: function(scope, element, attr, mCtrl) {
+                    function mValidation(value) {
+                        var m = 0;
+                        var n = 0;
+
+                        for (var i = 0; i < value.length; i++) {
+                            if(value.charCodeAt(i) > 64 && value.charCodeAt(i) < 91){
+                                m = 1;
+                            }else if(value.charCodeAt(i) > 47 && value.charCodeAt(i) < 57){
+                                n = 1;
+                            }
+                        }
+
+                        if(!m){
+                            document.getElementById('mipass').innerHTML = "Must have at least an uppercase letter";
+                            mCtrl.$setValidity('pass', false);
+                        }
+                        if(!n){
+                            document.getElementById('mipass').innerHTML = "Must have at least one number";
+                            mCtrl.$setValidity('pass', false);
+                        }
+
+                        if(n&&m){
+                            document.getElementById('mipass').innerHTML = "";
+                            mCtrl.$setValidity('pass', true);
+                        }
+                        return value;
+                    }
+                    mCtrl.$parsers.push(mValidation);
+                }
+            };
+        });
+      </script>
+
+    <!--  <script type="text/javascript" src="login.js"></script> -->
+    </body>
+</html>
